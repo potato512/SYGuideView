@@ -23,13 +23,19 @@ static NSString *const image6P = @"_1242x2208";
 
 /********************************************************/
 
-@interface SYGuideScrollView ()
+@interface SYGuideScrollView () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *imageviewArray;
+@property (nonatomic, strong) UIButton *actionButton;
+
+@property (nonatomic, assign, readonly) NSInteger imageCount;
+@property (nonatomic, assign, readonly) CGFloat imageWidth;
 
 @end
 
 @implementation SYGuideScrollView
+
+@synthesize isSlide = _isSlide;
 
 - (instancetype)initWithImages:(NSArray *)array
 {
@@ -37,6 +43,7 @@ static NSString *const image6P = @"_1242x2208";
     if (self)
     {
         [UIApplication sharedApplication].statusBarHidden = YES;
+        self.animationTime = 0.6;
         
         UIView *bgView = [UIApplication sharedApplication].delegate.window;
         [bgView addSubview:self];
@@ -79,13 +86,13 @@ static NSString *const image6P = @"_1242x2208";
             
             if (i == count - 1)
             {
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-                button.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
-//                button.backgroundColor = [UIColor clearColor];
-                [imageview addSubview:button];
                 imageview.userInteractionEnabled = YES;
-                button.frame = CGRectMake((imageview.frame.size.width - buttonWidth()) / 2, (imageview.frame.size.height - buttonHeight() - typeHeight()), buttonWidth(), buttonHeight());
-                [button addTarget:self action:@selector(buttonActionClick) forControlEvents:UIControlEventTouchUpInside];
+                
+                self.actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [imageview addSubview:self.actionButton];
+                self.actionButton.frame = imageview.bounds;
+                self.actionButton.backgroundColor = [UIColor clearColor];
+                [self.actionButton addTarget:self action:@selector(buttonActionClick) forControlEvents:UIControlEventTouchUpInside];
             }
         }
         
@@ -102,39 +109,62 @@ static NSString *const image6P = @"_1242x2208";
         self.buttonClick();
     }
     
-    [UIApplication sharedApplication].statusBarHidden = NO;
-    if (SYGuideAnimationTypeDefault == self.animationType)
-    {
-        // 直接消失
-        [self removeFromSuperview];
-    }
-    else if (SYGuideAnimationTypeZoomIn == self.animationType)
-    {
-        // 放大淡化再消失
-        UIImageView *imageview = self.imageviewArray.lastObject;
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            imageview.transform = CGAffineTransformMakeScale(1.6, 1.6);
-            imageview.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            [self removeFromSuperview];
-        }];
-    }
-    else if (SYGuideAnimationTypeZoomOut == self.animationType)
-    {
-        // 缩小淡化再消失
-        UIImageView *imageview = self.imageviewArray.lastObject;
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            imageview.transform = CGAffineTransformMakeScale(0.3, 0.3);
-            imageview.alpha = 0.0;
-        } completion:^(BOOL finished) {
-            [self removeFromSuperview];
-        }];
-    }
+    [self hiddenImageView];
 }
 
-#pragma mark - 信息处理
+#pragma mark - 方法
+
+- (void)hiddenImageView
+{
+    [UIApplication sharedApplication].statusBarHidden = NO;
+    
+    if (self.isSlide)
+    {
+        // 向左滑动消失
+        UIImageView *imageview = self.imageviewArray.lastObject;
+
+        [UIView animateWithDuration:self.animationTime animations:^{
+            CGRect rect = imageview.frame;
+            rect.origin.x -= self.imageWidth;
+            imageview.frame = rect;
+            imageview.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [self removeFromSuperview];
+        }];
+    }
+    else
+    {
+        if (SYGuideAnimationTypeDefault == self.animationType)
+        {
+            // 直接消失
+            [self removeFromSuperview];
+        }
+        else if (SYGuideAnimationTypeZoomIn == self.animationType)
+        {
+            // 放大淡化再消失
+            UIImageView *imageview = self.imageviewArray.lastObject;
+            
+            [UIView animateWithDuration:self.animationTime animations:^{
+                imageview.transform = CGAffineTransformMakeScale(1.6, 1.6);
+                imageview.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
+        }
+        else if (SYGuideAnimationTypeZoomOut == self.animationType)
+        {
+            // 缩小淡化再消失
+            UIImageView *imageview = self.imageviewArray.lastObject;
+            
+            [UIView animateWithDuration:self.animationTime animations:^{
+                imageview.transform = CGAffineTransformMakeScale(0.3, 0.3);
+                imageview.alpha = 0.0;
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
+        }
+    }
+}
 
 NSString *typeName(void)
 {
@@ -158,77 +188,71 @@ NSString *typeName(void)
     return image4;
 }
 
-// 按钮frame设置根据实际情况处理
+#pragma mark - setter/getter
 
-CGFloat buttonWidth(void)
+- (UIButton *)button
 {
-    if (isiPhone4)
-    {
-        return 140.0;
-    }
-    else if (isiPhone5)
-    {
-        return 140.0;
-    }
-    else if (isiPhone6)
-    {
-        return 180.0;
-    }
-    else if (isiPhone6P)
-    {
-        return 200.0;
-    }
-    
-    return 140.0;
+    return self.actionButton;
 }
 
-CGFloat buttonHeight(void)
+- (NSInteger)imageCount
 {
-    if (isiPhone4)
-    {
-        return 35.0;
-    }
-    else if (isiPhone5)
-    {
-        return 35.0;
-    }
-    else if (isiPhone6)
-    {
-        return 45.0;
-    }
-    else if (isiPhone6P)
-    {
-        return 50.0;
-    }
-    
-    return 35.0;
+    return self.imageviewArray.count;
 }
 
-CGFloat typeHeight(void)
+- (CGFloat)imageWidth
 {
-    if (isiPhone4)
-    {
-        return 40.0;
-    }
-    else if (isiPhone5)
-    {
-        return 72.0;
-    }
-    else if (isiPhone6)
-    {
-        return 62.0;
-    }
-    else if (isiPhone6P)
-    {
-        return 87.0;
-    }
-    
-    return 40.0;
+    return self.frame.size.width;
 }
 
-#pragma mark - 状态设置
+- (void)setIsSlide:(BOOL)isSlide
+{
+    _isSlide = isSlide;
+    if (_isSlide)
+    {
+        self.delegate = self;
+        self.actionButton.hidden = YES;
+    }
+    else
+    {
+        self.actionButton.hidden = NO;
+    }
+}
+
+- (BOOL)isSlide
+{
+    return _isSlide;
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (self.isSlide)
+    {
+        CGFloat offsetX = scrollView.contentOffset.x;
+        NSInteger page = offsetX / self.imageWidth;
+        
+        if (page >= self.imageCount - 1)
+        {
+            self.bounces = YES;
+            
+            CGFloat hiddenOffsetX = ((self.imageCount - 1) * self.imageWidth + self.imageWidth / 5);
+            if (offsetX >= hiddenOffsetX)
+            {
+                [self hiddenImageView];
+            }
+        }
+        else
+        {
+            self.bounces = NO;
+        }
+    }
+}
 
 /************************************************************/
+
+#pragma mark - 状态设置
 
 /// 是否首次使用
 BOOL SYAppStatusUsingGet(void)
