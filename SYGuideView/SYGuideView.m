@@ -1,12 +1,12 @@
 //
-//  GuideScrollView.m
+//  SYGuideView.m
 //  zhangshaoyu
 //
 //  Created by zhangshaoyu on 15/8/21.
 //  Copyright (c) 2015年 zhangshaoyu. All rights reserved.
 //
 
-#import "SYGuideScrollView.h"
+#import "SYGuideView.h"
 
 /********************************************************/
 
@@ -23,7 +23,7 @@ static NSString *const image6P = @"_1242x2208";
 
 /********************************************************/
 
-@interface SYGuideScrollView () <UIScrollViewDelegate>
+@interface SYGuideView () <UIScrollViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *imageviewArray;
 @property (nonatomic, strong) UIButton *actionButton;
@@ -33,7 +33,7 @@ static NSString *const image6P = @"_1242x2208";
 
 @end
 
-@implementation SYGuideScrollView
+@implementation SYGuideView
 
 @synthesize isSlide = _isSlide;
 
@@ -255,14 +255,14 @@ NSString *typeName(void)
 #pragma mark - 状态设置
 
 /// 是否首次使用
-BOOL SYAppStatusUsingGet(void)
++ (BOOL)readAppStatus
 {
     NSNumber *number = [[NSUserDefaults standardUserDefaults] objectForKey:@"SaveAppStatusUsing"];
     return number.boolValue;
 }
 
 /// 设置使用状态（非首次）
-void SYAppStatusUsingSave(void)
++ (void)saveAppStatus
 {
     NSNumber *number = [NSNumber numberWithBool:1];
     [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"SaveAppStatusUsing"];

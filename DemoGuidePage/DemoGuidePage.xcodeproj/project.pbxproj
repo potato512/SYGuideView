@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7A2C9AD1F1468630007C32B /* SYGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A2C9AC1F1468630007C32B /* SYGuideView.m */; };
 		A7A3A6A21B871DFA00939080 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A3A6A11B871DFA00939080 /* main.m */; };
 		A7A3A6A51B871DFA00939080 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A3A6A41B871DFA00939080 /* AppDelegate.m */; };
 		A7A3A6A81B871DFA00939080 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A3A6A71B871DFA00939080 /* ViewController.m */; };
@@ -14,7 +15,6 @@
 		A7A3A6AD1B871DFA00939080 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7A3A6AC1B871DFA00939080 /* Images.xcassets */; };
 		A7A3A6B01B871DFA00939080 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7A3A6AE1B871DFA00939080 /* LaunchScreen.xib */; };
 		A7A3A6BC1B871DFA00939080 /* DemoGuidePageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A3A6BB1B871DFA00939080 /* DemoGuidePageTests.m */; };
-		A7A3A6C71B871EBF00939080 /* SYGuideScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7A3A6C61B871EBF00939080 /* SYGuideScrollView.m */; };
 		A7A3A6CD1B87248700939080 /* guideImage_1_750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A3A6C91B87248700939080 /* guideImage_1_750x1334.png */; };
 		A7A3A6CE1B87248700939080 /* guideImage_2_750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A3A6CA1B87248700939080 /* guideImage_2_750x1334.png */; };
 		A7A3A6CF1B87248700939080 /* guideImage_3_750x1334.png in Resources */ = {isa = PBXBuildFile; fileRef = A7A3A6CB1B87248700939080 /* guideImage_3_750x1334.png */; };
@@ -44,6 +44,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A74C2BCF1F1469F00006AA00 /* SYGuideHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGuideHeader.h; sourceTree = "<group>"; };
+		A7A2C9AB1F1468630007C32B /* SYGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGuideView.h; sourceTree = "<group>"; };
+		A7A2C9AC1F1468630007C32B /* SYGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGuideView.m; sourceTree = "<group>"; };
 		A7A3A69C1B871DFA00939080 /* DemoGuidePage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoGuidePage.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7A3A6A01B871DFA00939080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A7A3A6A11B871DFA00939080 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -57,8 +60,6 @@
 		A7A3A6B51B871DFA00939080 /* DemoGuidePageTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoGuidePageTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7A3A6BA1B871DFA00939080 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A7A3A6BB1B871DFA00939080 /* DemoGuidePageTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoGuidePageTests.m; sourceTree = "<group>"; };
-		A7A3A6C51B871EBF00939080 /* SYGuideScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGuideScrollView.h; sourceTree = "<group>"; };
-		A7A3A6C61B871EBF00939080 /* SYGuideScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGuideScrollView.m; sourceTree = "<group>"; };
 		A7A3A6C91B87248700939080 /* guideImage_1_750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guideImage_1_750x1334.png; sourceTree = "<group>"; };
 		A7A3A6CA1B87248700939080 /* guideImage_2_750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guideImage_2_750x1334.png; sourceTree = "<group>"; };
 		A7A3A6CB1B87248700939080 /* guideImage_3_750x1334.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guideImage_3_750x1334.png; sourceTree = "<group>"; };
@@ -95,6 +96,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A7A2C9AA1F1468630007C32B /* SYGuideView */ = {
+			isa = PBXGroup;
+			children = (
+				A7A2C9AB1F1468630007C32B /* SYGuideView.h */,
+				A7A2C9AC1F1468630007C32B /* SYGuideView.m */,
+				A74C2BCF1F1469F00006AA00 /* SYGuideHeader.h */,
+			);
+			name = SYGuideView;
+			path = ../../SYGuideView;
+			sourceTree = "<group>";
+		};
 		A7A3A6931B871DFA00939080 = {
 			isa = PBXGroup;
 			children = (
@@ -120,12 +132,8 @@
 				A7A3A6A41B871DFA00939080 /* AppDelegate.m */,
 				A7A3A6A61B871DFA00939080 /* ViewController.h */,
 				A7A3A6A71B871DFA00939080 /* ViewController.m */,
-				A7A3A6C51B871EBF00939080 /* SYGuideScrollView.h */,
-				A7A3A6C61B871EBF00939080 /* SYGuideScrollView.m */,
+				A7A2C9AA1F1468630007C32B /* SYGuideView */,
 				A7A3A6C81B87248700939080 /* GuideImage */,
-				A7A3A6A91B871DFA00939080 /* Main.storyboard */,
-				A7A3A6AC1B871DFA00939080 /* Images.xcassets */,
-				A7A3A6AE1B871DFA00939080 /* LaunchScreen.xib */,
 				A7A3A69F1B871DFA00939080 /* Supporting Files */,
 			);
 			path = DemoGuidePage;
@@ -134,6 +142,9 @@
 		A7A3A69F1B871DFA00939080 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A7A3A6A91B871DFA00939080 /* Main.storyboard */,
+				A7A3A6AC1B871DFA00939080 /* Images.xcassets */,
+				A7A3A6AE1B871DFA00939080 /* LaunchScreen.xib */,
 				A7A3A6A01B871DFA00939080 /* Info.plist */,
 				A7A3A6A11B871DFA00939080 /* main.m */,
 			);
@@ -296,9 +307,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7A3A6C71B871EBF00939080 /* SYGuideScrollView.m in Sources */,
 				A7A3A6A81B871DFA00939080 /* ViewController.m in Sources */,
 				A7A3A6A51B871DFA00939080 /* AppDelegate.m in Sources */,
+				A7A2C9AD1F1468630007C32B /* SYGuideView.m in Sources */,
 				A7A3A6A21B871DFA00939080 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

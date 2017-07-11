@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "SYGuideScrollView.h"
+#import "SYGuideView.h"
 
 @interface AppDelegate ()
 
@@ -26,13 +26,18 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
 
-    BOOL appStatus = SYAppStatusUsingGet();
-    if (!appStatus)
+    // 判断是否首次使用
+    BOOL isFirstUsing = SYGuideView.readAppStatus;
+    if (!isFirstUsing)
     {
-        SYAppStatusUsingSave();
+        // 非首次使用
         
+        // 保存首次使用的状态
+        [SYGuideView saveAppStatus];
+        
+        // 实例化引导页
         NSArray *images = @[@"guideImage_1", @"guideImage_2", @"guideImage_3", @"guideImage_4"];
-        SYGuideScrollView *guideView = [[SYGuideScrollView alloc] initWithImages:images];
+        SYGuideView *guideView = [[SYGuideView alloc] initWithImages:images];
         guideView.buttonClick = ^(){
             
         };

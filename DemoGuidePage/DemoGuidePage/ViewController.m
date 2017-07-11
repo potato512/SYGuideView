@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "SYGuideScrollView.h"
+#import "SYGuideView.h"
 
 @interface ViewController ()
 
@@ -61,7 +61,7 @@
 - (void)buttonClick:(UIButton *)button
 {
     NSArray *images = @[@"guideImage_1", @"guideImage_2", @"guideImage_3", @"guideImage_4"];
-    SYGuideScrollView *guideView = [[SYGuideScrollView alloc] initWithImages:images];
+    SYGuideView *guideView = [[SYGuideView alloc] initWithImages:images];
     if (0 == button.tag - 1000)
     {
         // 隐藏动画类型
