@@ -4,7 +4,7 @@
 //
 //  Created by zhangshaoyu on 2017/7/11.
 //  Copyright © 2017年 zhangshaoyu. All rights reserved.
-//
+//  https://github.com/potato512/SYGuideView
 
 #ifndef SYGuideHeader_h
 #define SYGuideHeader_h
