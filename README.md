@@ -4,6 +4,13 @@ APP首次使用时的引导页设置
 # 效果图
 ![image.gif](./images/image.gif) 
 
+
+
+* 使用介绍
+  * 自动导入：使用命令`pod 'SYGuideView'`导入到项目中
+  * 手动导入：或下载源码后，将源码添加到项目中
+
+
 # 使用示例
 ~~~ javascript
 // 引入头文件
