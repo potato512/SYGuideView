@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "SYGuideView.h"
+#import "SYGuideController.h"
 
 @interface AppDelegate ()
 
@@ -20,28 +20,31 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    ViewController *vc = [[ViewController alloc] init];
-    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-    self.window.rootViewController = navVC;
-    self.window.backgroundColor = [UIColor whiteColor];
+//    sleep(3);
+    
+    SYGuideController *guideVC = [SYGuideController new];
+    guideVC.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
+    guideVC.guideType = UIGuideViewTypeVideo;
+    //
+    guideVC.guideComplete = ^{
+        NSLog(@"放完了");
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"denza"]];
+        [self.window addSubview:imageView];
+        imageView.frame = self.window.bounds;
+//        sleep(5);
+        [UIView animateWithDuration:0.6 animations:^{
+            imageView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [imageView removeFromSuperview];
+            ViewController *vc = [[ViewController alloc] init];
+            UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+            self.window.rootViewController = navVC;
+        }];
+    };
+    [guideVC reloadData];
+    self.window.rootViewController = guideVC;
+    self.window.backgroundColor = UIColor.clearColor;
     [self.window makeKeyAndVisible];
-
-    // 判断是否首次使用
-    BOOL isFirstUsing = SYGuideView.readAppStatus;
-    if (!isFirstUsing)
-    {
-        // 非首次使用
-        
-        // 保存首次使用的状态
-        [SYGuideView saveAppStatus];
-        
-        // 实例化引导页
-        NSArray *images = @[@"guideImage_1", @"guideImage_2", @"guideImage_3", @"guideImage_4"];
-        SYGuideView *guideView = [[SYGuideView alloc] initWithImages:images];
-        guideView.buttonClick = ^(){
-            
-        };
-    }
     
     return YES;
 }
