@@ -7,10 +7,12 @@
 //
 
 #import "ViewController.h"
-#import "SYGuideController.h"
+#import "SYGuideView.h"
+#import "LaunchViewController.h"
 
 @interface ViewController () <UITableViewDelegate, UITableViewDataSource>
 
+@property (nonatomic, strong) SYGuideView *guideView;
 @property (nonatomic, strong) NSArray *array;
 
 @end
@@ -70,8 +72,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (0 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
+//        [self.view addSubview:guideView.view];
         guideView.images = @[@"guideImage_1", @"guideImage_2", @"guideImage_3", @"guideImage_4"];
         guideView.autoLayout = YES;
         guideView.guideComplete = ^{
@@ -79,8 +82,8 @@
         };
         [guideView reloadData];
     } else if (1 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.keyWindow addSubview:guideView];
         guideView.images = @[@"guideImage_11", @"guideImage_12", @"guideImage_13", @"guideImage_14"];
         guideView.animationType = UIGuideAnimationTypeZoomIn;
         guideView.guideComplete = ^{
@@ -88,8 +91,8 @@
         };
         [guideView reloadData];
     } else if (2 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
         guideView.images = @[@"guideImage_21", @"guideImage_22", @"guideImage_23", @"guideImage_24"];
         guideView.animationType = UIGuideAnimationTypeZoomOut;
         guideView.button.frame = CGRectMake((self.view.frame.size.width - 100.0) / 2, (self.view.frame.size.height - 40.0), 100.0, 40.0);
@@ -103,8 +106,8 @@
         };
         [guideView reloadData];
     } else if (3 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
         guideView.images = @[@"guideImage_41", @"guideImage_42", @"guideImage_43", @"guideImage_44"];
         guideView.isSlide = YES;
         guideView.guideComplete = ^{
@@ -112,8 +115,8 @@
         };
         [guideView reloadData];
     } else if (4 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
         guideView.images = @[@"guideImage_31", @"guideImage_32", @"guideImage_33", @"guideImage_34"];
         guideView.animationType = UIGuideAnimationTypeDown;
         guideView.guideComplete = ^{
@@ -121,8 +124,8 @@
         };
         [guideView reloadData];
     } else if (5 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
         guideView.images = @[@"guideImage_31"];
         guideView.animationType = UIGuideAnimationTypeDown;
         guideView.hideType = UIGuideHideTypeCountdown;
@@ -131,8 +134,8 @@
         };
         [guideView reloadData];
     } else if (6 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
         guideView.images = @[@"guideImage_33"];
         guideView.animationType = UIGuideAnimationTypeDown;
         guideView.hideType = UIGuideHideTypeCountdownShould;
@@ -141,8 +144,8 @@
         };
         [guideView reloadData];
     } else if (7 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
+        SYGuideView *guideView = [SYGuideView new];
+        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
         guideView.images = @[@"guideImage_34"];
         guideView.animationType = UIGuideAnimationTypeDown;
         guideView.hideType = UIGuideHideTypeCountdownDid;
@@ -151,14 +154,20 @@
         };
         [guideView reloadData];
     } else if (8 == indexPath.row) {
-        SYGuideController *guideView = [SYGuideController new];
-        [UIApplication.sharedApplication.keyWindow addSubview:guideView.view];
-        guideView.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
-        guideView.guideType = UIGuideViewTypeVideo;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
+//        SYGuideView *guideView = [SYGuideView new];
+//        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
+//        guideView.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
+//        guideView.guideType = UIGuideViewTypeVideo;
+//        guideView.guideComplete = ^{
+//            NSLog(@"done %ld", indexPath.row);
+//        };
+//        [guideView reloadData];
+        
+        LaunchViewController *nextVC = [LaunchViewController new];
+        nextVC.complete = ^{
+            [nextVC dismissViewControllerAnimated:YES completion:NULL];
         };
-        [guideView reloadData];
+        [self presentViewController:nextVC animated:YES completion:NULL];
     }
 }
 

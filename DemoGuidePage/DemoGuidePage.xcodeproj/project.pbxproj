@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		80E59F9A2331D97A00AC5500 /* SYGuideController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E59F992331D97A00AC5500 /* SYGuideController.m */; };
+		80192DF02337719F00222EFF /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80192DEF2337719F00222EFF /* LaunchViewController.m */; };
+		80E59F9A2331D97A00AC5500 /* SYGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E59F992331D97A00AC5500 /* SYGuideView.m */; };
 		80F9C9E7232F68B000F36974 /* guideImage_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 80F9C9E3232F68B000F36974 /* guideImage_32.png */; };
 		80F9C9E8232F68B000F36974 /* guideImage_31.png in Resources */ = {isa = PBXBuildFile; fileRef = 80F9C9E4232F68B000F36974 /* guideImage_31.png */; };
 		80F9C9E9232F68B000F36974 /* guideImage_33.png in Resources */ = {isa = PBXBuildFile; fileRef = 80F9C9E5232F68B000F36974 /* guideImage_33.png */; };
@@ -62,8 +63,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		80E59F982331D97A00AC5500 /* SYGuideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGuideController.h; sourceTree = "<group>"; };
-		80E59F992331D97A00AC5500 /* SYGuideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGuideController.m; sourceTree = "<group>"; };
+		80192DEE2337719F00222EFF /* LaunchViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
+		80192DEF2337719F00222EFF /* LaunchViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
+		80192DF1233774B800222EFF /* SYGuideViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYGuideViewDelegate.h; sourceTree = "<group>"; };
+		80E59F982331D97A00AC5500 /* SYGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYGuideView.h; sourceTree = "<group>"; };
+		80E59F992331D97A00AC5500 /* SYGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYGuideView.m; sourceTree = "<group>"; };
 		80F9C9E3232F68B000F36974 /* guideImage_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guideImage_32.png; sourceTree = "<group>"; };
 		80F9C9E4232F68B000F36974 /* guideImage_31.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guideImage_31.png; sourceTree = "<group>"; };
 		80F9C9E5232F68B000F36974 /* guideImage_33.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guideImage_33.png; sourceTree = "<group>"; };
@@ -189,8 +193,9 @@
 		A7A2C9AA1F1468630007C32B /* SYGuideView */ = {
 			isa = PBXGroup;
 			children = (
-				80E59F982331D97A00AC5500 /* SYGuideController.h */,
-				80E59F992331D97A00AC5500 /* SYGuideController.m */,
+				80E59F982331D97A00AC5500 /* SYGuideView.h */,
+				80E59F992331D97A00AC5500 /* SYGuideView.m */,
+				80192DF1233774B800222EFF /* SYGuideViewDelegate.h */,
 			);
 			name = SYGuideView;
 			path = ../../SYGuideView;
@@ -221,6 +226,8 @@
 				A7A3A6A41B871DFA00939080 /* AppDelegate.m */,
 				A7A3A6A61B871DFA00939080 /* ViewController.h */,
 				A7A3A6A71B871DFA00939080 /* ViewController.m */,
+				80192DEE2337719F00222EFF /* LaunchViewController.h */,
+				80192DEF2337719F00222EFF /* LaunchViewController.m */,
 				80F9D74C2331C62B00F36974 /* denza.png */,
 				80F9D74A2330E67900F36974 /* denza.mp4 */,
 				80F9C9BE232F682600F36974 /* images */,
@@ -421,8 +428,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7A3A6A81B871DFA00939080 /* ViewController.m in Sources */,
-				80E59F9A2331D97A00AC5500 /* SYGuideController.m in Sources */,
+				80E59F9A2331D97A00AC5500 /* SYGuideView.m in Sources */,
 				A7A3A6A51B871DFA00939080 /* AppDelegate.m in Sources */,
+				80192DF02337719F00222EFF /* LaunchViewController.m in Sources */,
 				A7A3A6A21B871DFA00939080 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

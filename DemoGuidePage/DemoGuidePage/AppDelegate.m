@@ -8,7 +8,8 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "SYGuideController.h"
+#import "SYGuideView.h"
+#import "LaunchViewController.h"
 
 @interface AppDelegate ()
 
@@ -22,12 +23,10 @@
     
 //    sleep(3);
     
-    SYGuideController *guideVC = [SYGuideController new];
-    guideVC.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
-    guideVC.guideType = UIGuideViewTypeVideo;
-    //
-    guideVC.guideComplete = ^{
-        NSLog(@"放完了");
+    
+    
+    LaunchViewController *guideVC = [LaunchViewController new];
+    guideVC.complete = ^{
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"denza"]];
         [self.window addSubview:imageView];
         imageView.frame = self.window.bounds;
@@ -41,10 +40,25 @@
             self.window.rootViewController = navVC;
         }];
     };
-    [guideVC reloadData];
     self.window.rootViewController = guideVC;
     self.window.backgroundColor = UIColor.clearColor;
     [self.window makeKeyAndVisible];
+    
+    
+//    ViewController *vc = [[ViewController alloc] init];
+//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
+//    self.window.rootViewController = navVC;
+//    self.window.backgroundColor = UIColor.clearColor;
+//    [self.window makeKeyAndVisible];
+//    //
+//    SYGuideController *guideVC = [SYGuideController new];
+////    guideVC.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
+////    guideVC.guideType = UIGuideViewTypeVideo;
+//    guideVC.images = @[@"denza"];
+//    [self.window addSubview:guideVC.view];
+//    [self.window bringSubviewToFront:guideVC.view];
+////    guideVC.images = @[@"denza"];
+//    [guideVC reloadData];
     
     return YES;
 }

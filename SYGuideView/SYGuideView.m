@@ -1,12 +1,12 @@
 //
-//  SYGuideController.m
-//  DemoGuidePage
+//  SYGuideView.m
+//  zhangshaoyu
 //
 //  Created by zhangshaoyu on 2019/9/18.
 //  Copyright © 2019 zhangshaoyu. All rights reserved.
 //
 
-#import "SYGuideController.h"
+#import "SYGuideView.h"
 
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
@@ -31,9 +31,8 @@ static NSString *const image6P = @"_1242x2208";
 
 /********************************************************/
 
-@interface SYGuideController () <UIScrollViewDelegate, CAAnimationDelegate>
+@interface SYGuideView () <UIScrollViewDelegate, CAAnimationDelegate>
 
-@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *imageviewArray;
 @property (nonatomic, strong) UIButton *actionButton;
 
@@ -46,25 +45,25 @@ static NSString *const image6P = @"_1242x2208";
 
 @property (nonatomic, assign) BOOL hasSafeArea;
 
+
+@property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, assign) NSInteger pages;
+
 @end
 
-@implementation SYGuideController
+@implementation SYGuideView
 
 @synthesize isSlide = _isSlide;
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
-    [UIApplication sharedApplication].statusBarHidden = YES;
-    [self initialize];
-}
-
-- (void)loadView
+- (instancetype)init
 {
-    [super loadView];
-    self.view.backgroundColor = UIColor.clearColor;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self = [super init];
+    if (self) {
+        [UIApplication sharedApplication].statusBarHidden = YES;
+        self.backgroundColor = UIColor.clearColor;
+        [self initialize];
+    }
+    return self;
 }
 
 - (void)dealloc
@@ -74,6 +73,15 @@ static NSString *const image6P = @"_1242x2208";
 
 - (void)initialize
 {
+//    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+//    [self.view addSubview:_scrollView];
+    self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
+    self.pagingEnabled = YES;
+    self.bounces = NO;
+    self.userInteractionEnabled = YES;
+    //
     self.autoLayout = NO;
     self.animationTime = 0.6;
     self.autoTime = 3.0;
@@ -81,6 +89,9 @@ static NSString *const image6P = @"_1242x2208";
 
 - (void)reloadData
 {
+    if (self.superview) {
+        self.frame = self.superview.bounds;
+    }
     if (self.guideType == UIGuideViewTypeDefault) {
         [self reloadUIWithImages:self.images];
     } else if (self.guideType == UIGuideViewTypeGif) {
@@ -101,13 +112,13 @@ static NSString *const image6P = @"_1242x2208";
         NSInteger count = array.count;
         self.imageviewArray = [[NSMutableArray alloc] initWithCapacity:count];
         for (NSInteger i = 0; i < count; i++) {
-            CGRect rect = CGRectMake((i * self.scrollView.frame.size.width), 0.0, self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+            CGRect rect = CGRectMake((i * self.frame.size.width), 0.0, self.frame.size.width, self.frame.size.height);
             NSString *imageName = array[i];
             if (self.autoLayout) {
                 imageName = [[NSString alloc] initWithFormat:@"%@%@", imageName, self.class.iPhoneTypeName];
             }
             UIImageView *imageview = [[UIImageView alloc] initWithFrame:rect];
-            [self.scrollView addSubview:imageview];
+            [self addSubview:imageview];
             imageview.layer.masksToBounds = YES;
             imageview.backgroundColor = [UIColor clearColor];
             imageview.contentMode = UIViewContentModeScaleAspectFill;
@@ -123,7 +134,7 @@ static NSString *const image6P = @"_1242x2208";
             }
         }
         
-        self.scrollView.contentSize = CGSizeMake(count * self.scrollView.frame.size.width, self.scrollView.frame.size.height);
+        self.contentSize = CGSizeMake(count * self.frame.size.width, self.frame.size.height);
     }
 }
 
@@ -173,8 +184,8 @@ static NSString *const image6P = @"_1242x2208";
     self.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
     AVPlayerLayer *playerlayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     [playerlayer addAnimation:scaleAnimation forKey:nil];
-    [self.view.layer addSublayer:playerlayer];
-    playerlayer.frame = self.view.bounds;
+    [self.layer addSublayer:playerlayer];
+    playerlayer.frame = self.bounds;
 }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
@@ -251,8 +262,8 @@ static NSString *const image6P = @"_1242x2208";
             imageview.frame = rect;
             imageview.alpha = 0.0;
         } completion:^(BOOL finished) {
-            if (self.view.superview) {
-                [self.view removeFromSuperview];
+            if (self.superview) {
+                [self removeFromSuperview];
             }
             if (self.guideComplete) {
                 self.guideComplete();
@@ -261,8 +272,8 @@ static NSString *const image6P = @"_1242x2208";
     } else {
         if (UIGuideAnimationTypeDefault == self.animationType) {
             // 直接消失
-            if (self.view.superview) {
-                [self.view removeFromSuperview];
+            if (self.superview) {
+                [self removeFromSuperview];
             }
             if (self.guideComplete) {
                 self.guideComplete();
@@ -275,8 +286,8 @@ static NSString *const image6P = @"_1242x2208";
                 imageview.transform = CGAffineTransformMakeScale(1.6, 1.6);
                 imageview.alpha = 0.0;
             } completion:^(BOOL finished) {
-                if (self.view.superview) {
-                    [self.view removeFromSuperview];
+                if (self.superview) {
+                    [self removeFromSuperview];
                 }
                 if (self.guideComplete) {
                     self.guideComplete();
@@ -290,8 +301,8 @@ static NSString *const image6P = @"_1242x2208";
                 imageview.transform = CGAffineTransformMakeScale(0.6, 0.6);
                 imageview.alpha = 0.0;
             } completion:^(BOOL finished) {
-                if (self.view.superview) {
-                    [self.view removeFromSuperview];
+                if (self.superview) {
+                    [self removeFromSuperview];
                 }
                 if (self.guideComplete) {
                     self.guideComplete();
@@ -305,8 +316,8 @@ static NSString *const image6P = @"_1242x2208";
                 imageview.frame = CGRectMake(imageview.frame.origin.x, imageview.frame.size.height, imageview.frame.size.width, imageview.frame.size.height);
                 imageview.alpha = 0.0;
             } completion:^(BOOL finished) {
-                if (self.view.superview) {
-                    [self.view removeFromSuperview];
+                if (self.superview) {
+                    [self removeFromSuperview];
                 }
                 if (self.guideComplete) {
                     self.guideComplete();
@@ -333,21 +344,6 @@ static NSString *const image6P = @"_1242x2208";
 
 #pragma mark - setter/getter
 
-- (UIScrollView *)scrollView
-{
-    if (_scrollView == nil) {
-        _scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-        _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        [self.view addSubview:_scrollView];
-        _scrollView.showsHorizontalScrollIndicator = NO;
-        _scrollView.showsVerticalScrollIndicator = NO;
-        _scrollView.pagingEnabled = YES;
-        _scrollView.bounces = NO;
-        _scrollView.userInteractionEnabled = YES;
-    }
-    return _scrollView;
-}
-
 - (UIButton *)actionButton
 {
     if (_actionButton == nil) {
@@ -355,7 +351,7 @@ static NSString *const image6P = @"_1242x2208";
         UIImageView *imageView = self.imageviewArray.lastObject;
         [imageView addSubview:_actionButton];
         _actionButton.frame = imageView.bounds;
-        _actionButton.backgroundColor = [UIColor orangeColor];
+        _actionButton.backgroundColor = UIColor.clearColor;
         _actionButton.titleLabel.font = [UIFont systemFontOfSize:13.0];
         [_actionButton setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
         [_actionButton addTarget:self action:@selector(buttonActionClick) forControlEvents:UIControlEventTouchUpInside];
@@ -375,14 +371,14 @@ static NSString *const image6P = @"_1242x2208";
 
 - (CGFloat)imageWidth
 {
-    return self.view.frame.size.width;
+    return self.frame.size.width;
 }
 
 - (void)setIsSlide:(BOOL)isSlide
 {
     _isSlide = isSlide;
     if (_isSlide) {
-        self.scrollView.delegate = self;
+        self.delegate = self;
         self.actionButton.hidden = YES;
     } else {
         self.actionButton.hidden = NO;
@@ -414,14 +410,14 @@ static NSString *const image6P = @"_1242x2208";
         NSInteger page = offsetX / self.imageWidth;
         
         if (page >= self.imageCount - 1) {
-            self.scrollView.bounces = YES;
+            self.bounces = YES;
             
             CGFloat hiddenOffsetX = ((self.imageCount - 1) * self.imageWidth + self.imageWidth / 5);
             if (offsetX >= hiddenOffsetX) {
                 [self hiddenImageView];
             }
         } else {
-            self.scrollView.bounces = NO;
+            self.bounces = NO;
         }
     }
 }
@@ -477,6 +473,39 @@ static NSString *const image6P = @"_1242x2208";
     [self.actionButton setTitle:title forState:UIControlStateNormal];
     self.autoTime--;
     NSLog(@"3 %.0fs", self.autoTime);
+}
+
+
+#pragma mark - delegate
+
+- (void)reloadDataDelegate
+{
+    if (self.delegate) {
+        if ([self.delegate respondsToSelector:@selector(guideViewPages:)]) {
+            self.pages = [self.delegate guideViewPages:self];
+            if (self.pages <= 0) {
+                self.pages = 1;
+            }
+        }
+        if ([self.delegate respondsToSelector:@selector(guideView:page:)]) {
+            for (NSInteger page = 0; page < self.pages; page++) {
+                UIView *view = [self.delegate guideView:self page:page];
+            }
+        }
+        if ([self.delegate respondsToSelector:@selector(guideView:didClickPage:)]) {
+            for (NSInteger page = 0; page < self.pages; page++) {
+                [self.delegate guideView:self didClickPage:page];
+            }
+        }
+    }
+}
+
+- (UICollectionView *)collectionView
+{
+    if (_collectionView == nil) {
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:nil];
+    }
+    return _collectionView;
 }
 
 /************************************************************/

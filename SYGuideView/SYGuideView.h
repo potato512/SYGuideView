@@ -1,5 +1,5 @@
 //
-//  SYGuideController.h
+//  SYGuideView.h
 //  zhangshaoyu
 //
 //  Created by zhangshaoyu on 2019/9/18.
@@ -7,6 +7,7 @@
 //  https://github.com/potato512/SYGuideView
 
 #import <UIKit/UIKit.h>
+#import "SYGuideViewDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -44,9 +45,11 @@ typedef NS_ENUM (NSInteger, UIGuideHideType) {
     UIGuideHideTypeCountdownDid
 };
 
-@interface SYGuideController : UIViewController
+@interface SYGuideView : UIScrollView
 
 - (void)reloadData;
+
+@property (nonatomic, weak) id<SYGuideViewDelegate> delegate;
 
 /// 引导图组（图片命名格式：guideImage_1_640x960.png，或图片命名格式：guideImage_1.png）
 @property (nonatomic, strong) NSArray *images;
