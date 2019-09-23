@@ -24,12 +24,12 @@
 //    sleep(3);
     
     
-    
+    __weak AppDelegate *weakSelf = self;
     LaunchViewController *guideVC = [LaunchViewController new];
     guideVC.complete = ^{
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"denza"]];
-        [self.window addSubview:imageView];
-        imageView.frame = self.window.bounds;
+        [weakSelf.window addSubview:imageView];
+        imageView.frame = weakSelf.window.bounds;
 //        sleep(5);
         [UIView animateWithDuration:0.6 animations:^{
             imageView.alpha = 0.0;
@@ -37,7 +37,7 @@
             [imageView removeFromSuperview];
             ViewController *vc = [[ViewController alloc] init];
             UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-            self.window.rootViewController = navVC;
+            weakSelf.window.rootViewController = navVC;
         }];
     };
     self.window.rootViewController = guideVC;

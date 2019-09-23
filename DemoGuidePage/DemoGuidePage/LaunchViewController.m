@@ -9,7 +9,7 @@
 #import "LaunchViewController.h"
 #import "SYGuideView.h"
 
-@interface LaunchViewController ()
+@interface LaunchViewController () <SYGuideViewDelegate>
 
 @end
 
@@ -24,16 +24,13 @@
     [self.view addSubview:guideView];
     guideView.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
     guideView.guideType = UIGuideViewTypeVideo;
-//    guideVC.images = @[@"denza"];
-//    guideVC.hideType = UIGuideHideTypeCountdown;
-//    guideVC.images = @[@"guideImage_11", @"guideImage_12", @"guideImage_13", @"guideImage_14"];
-//    guideVC.isSlide = YES;
-    guideView.guideComplete = ^{
+    guideView.complete = ^(void){
         NSLog(@"放完了");
         if (self.complete) {
             self.complete();
         }
     };
+    guideView.delegate = self;
     [guideView reloadData];
 }
 
@@ -46,5 +43,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)guideViewComplete:(SYGuideView *)guideView
+{
+    NSLog(@"放完了");
+    if (self.complete) {
+       self.complete();
+    }
+}
 
 @end

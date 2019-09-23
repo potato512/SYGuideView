@@ -10,7 +10,7 @@
 #import "SYGuideView.h"
 #import "LaunchViewController.h"
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ViewController () <UITableViewDelegate, UITableViewDataSource, SYGuideViewDelegate>
 
 @property (nonatomic, strong) SYGuideView *guideView;
 @property (nonatomic, strong) NSArray *array;
@@ -46,6 +46,7 @@
 {
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.view addSubview:tableView];
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     tableView.tableFooterView = [UIView new];
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -67,116 +68,133 @@
     return cell;
 }
 
+static NSInteger const tagGuideView = 1000;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (0 == indexPath.row) {
-        SYGuideView *guideView = [SYGuideView new];
+        SYGuideView *guideView = [[SYGuideView alloc] initWithFrame:UIApplication.sharedApplication.delegate.window.bounds];
         [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-//        [self.view addSubview:guideView.view];
-        guideView.images = @[@"guideImage_1", @"guideImage_2", @"guideImage_3", @"guideImage_4"];
-        guideView.autoLayout = YES;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
+        //
+        [guideView timerStart:6.0 complete:^(NSTimeInterval time) {
+            NSString *title = [NSString stringWithFormat:@"%.0fs", time];
+            NSLog(@"%@", title);
+        }];
+        //
+        guideView.tag = indexPath.row + tagGuideView;
+        guideView.delegate = self;
         [guideView reloadData];
     } else if (1 == indexPath.row) {
         SYGuideView *guideView = [SYGuideView new];
         [UIApplication.sharedApplication.keyWindow addSubview:guideView];
-        guideView.images = @[@"guideImage_11", @"guideImage_12", @"guideImage_13", @"guideImage_14"];
-        guideView.animationType = UIGuideAnimationTypeZoomIn;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
+        guideView.tag = indexPath.row + tagGuideView;
+        guideView.delegate = self;
         [guideView reloadData];
     } else if (2 == indexPath.row) {
-        SYGuideView *guideView = [SYGuideView new];
+        SYGuideView *guideView = [[SYGuideView alloc] init];
         [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-        guideView.images = @[@"guideImage_21", @"guideImage_22", @"guideImage_23", @"guideImage_24"];
-        guideView.animationType = UIGuideAnimationTypeZoomOut;
-        guideView.button.frame = CGRectMake((self.view.frame.size.width - 100.0) / 2, (self.view.frame.size.height - 40.0), 100.0, 40.0);
-        [guideView.button setTitle:@"隐藏" forState:UIControlStateNormal];
-        guideView.button.backgroundColor = [UIColor greenColor];
-        guideView.button.layer.cornerRadius = 10.0;
-        guideView.button.layer.borderWidth = 1.0;
-        guideView.button.layer.borderColor = [UIColor redColor].CGColor;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
+        guideView.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
+        guideView.guideType = UIGuideViewTypeVideo;
+        guideView.tag = indexPath.row + tagGuideView;
+        guideView.delegate = self;
         [guideView reloadData];
-    } else if (3 == indexPath.row) {
-        SYGuideView *guideView = [SYGuideView new];
-        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-        guideView.images = @[@"guideImage_41", @"guideImage_42", @"guideImage_43", @"guideImage_44"];
-        guideView.isSlide = YES;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
-        [guideView reloadData];
-    } else if (4 == indexPath.row) {
-        SYGuideView *guideView = [SYGuideView new];
-        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-        guideView.images = @[@"guideImage_31", @"guideImage_32", @"guideImage_33", @"guideImage_34"];
-        guideView.animationType = UIGuideAnimationTypeDown;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
-        [guideView reloadData];
-    } else if (5 == indexPath.row) {
-        SYGuideView *guideView = [SYGuideView new];
-        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-        guideView.images = @[@"guideImage_31"];
-        guideView.animationType = UIGuideAnimationTypeDown;
-        guideView.hideType = UIGuideHideTypeCountdown;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
-        [guideView reloadData];
-    } else if (6 == indexPath.row) {
-        SYGuideView *guideView = [SYGuideView new];
-        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-        guideView.images = @[@"guideImage_33"];
-        guideView.animationType = UIGuideAnimationTypeDown;
-        guideView.hideType = UIGuideHideTypeCountdownShould;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
-        [guideView reloadData];
-    } else if (7 == indexPath.row) {
-        SYGuideView *guideView = [SYGuideView new];
-        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-        guideView.images = @[@"guideImage_34"];
-        guideView.animationType = UIGuideAnimationTypeDown;
-        guideView.hideType = UIGuideHideTypeCountdownDid;
-        guideView.guideComplete = ^{
-            NSLog(@"done %ld", indexPath.row);
-        };
-        [guideView reloadData];
-    } else if (8 == indexPath.row) {
-//        SYGuideView *guideView = [SYGuideView new];
-//        [UIApplication.sharedApplication.delegate.window addSubview:guideView];
-//        guideView.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
-//        guideView.guideType = UIGuideViewTypeVideo;
-//        guideView.guideComplete = ^{
-//            NSLog(@"done %ld", indexPath.row);
-//        };
-//        [guideView reloadData];
-        
-        LaunchViewController *nextVC = [LaunchViewController new];
-        nextVC.complete = ^{
-            [nextVC dismissViewControllerAnimated:YES completion:NULL];
-        };
-        [self presentViewController:nextVC animated:YES completion:NULL];
     }
 }
 
 - (NSArray *)array
 {
     if (_array == nil) {
-        _array = @[@"默认", @"按钮全屏-放大消失", @"按钮自定义大小-缩小消失", @"滑动", @"向下消失", @"倒计时自动消失", @"倒计时可关闭", @"倒计时后才关闭", @"视频"];
+        _array = @[@"单图", @"多图", @"视频"];
     }
     return _array;
+}
+
+- (NSInteger)guideViewPages:(SYGuideView *)guideView
+{
+    if (guideView.tag - tagGuideView == 0) {
+        return self.arraySingle.count;
+    } else if (guideView.tag - tagGuideView == 1) {
+        return self.arrayMore.count;
+    }
+    return 1;
+}
+
+- (UIView *)guideView:(SYGuideView *)guideView page:(NSInteger)index
+{
+    if (guideView.tag - tagGuideView == 0) {
+        UIImageView *view = self.arraySingle[index];
+        return view;
+    } else if (guideView.tag - tagGuideView == 1) {
+        UIImageView *view = self.arrayMore[index];
+        return view;
+    }
+    return nil;
+}
+
+- (void)guideView:(SYGuideView *)guideView didClickPage:(NSInteger)index
+{
+    NSLog(@"index = %ld", index);
+    if (guideView.tag - tagGuideView == 0) {
+        // 放大淡化再消失
+        [UIView animateWithDuration:0.6 animations:^{
+            guideView.transform = CGAffineTransformMakeScale(1.6, 1.6);
+            guideView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [guideView removeFromSuperview];
+        }];
+    } else if (guideView.tag - tagGuideView == 1) {
+        // 向下淡化再消失
+        [UIView animateWithDuration:0.6 animations:^{
+            guideView.frame = CGRectMake(guideView.frame.origin.x, guideView.frame.size.height, guideView.frame.size.width, guideView.frame.size.height);
+            guideView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [guideView removeFromSuperview];
+        }];
+    }
+}
+
+- (BOOL)guideView:(SYGuideView *)guideView shouldClickPage:(NSInteger)index
+{
+    if (guideView.tag - tagGuideView == 0) {
+        if (index == self.arraySingle.count - 1) {
+            return YES;
+        }
+    } else if (guideView.tag - tagGuideView == 1) {
+        if (index == self.arrayMore.count - 1) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)guideViewComplete:(SYGuideView *)guideView
+{
+    [guideView removeFromSuperview];
+}
+
+- (NSArray *)arraySingle
+{
+    NSMutableArray *array = [NSMutableArray array];
+    NSArray *images = @[@"guideImage_31"];
+    [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:obj]];
+        imageView.frame = UIScreen.mainScreen.bounds;
+        [array addObject:imageView];
+    }];
+    return array;
+}
+
+- (NSArray *)arrayMore
+{
+    NSMutableArray *array = [NSMutableArray array];
+    NSArray *images = @[@"guideImage_31", @"guideImage_32", @"guideImage_33", @"guideImage_34"];
+    [images enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:obj]];
+        imageView.frame = UIScreen.mainScreen.bounds;
+        [array addObject:imageView];
+    }];
+    return array;
 }
 
 @end
