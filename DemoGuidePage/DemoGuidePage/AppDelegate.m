@@ -30,7 +30,7 @@
         UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"denza"]];
         [weakSelf.window addSubview:imageView];
         imageView.frame = weakSelf.window.bounds;
-//        sleep(5);
+        sleep(5);
         [UIView animateWithDuration:0.6 animations:^{
             imageView.alpha = 0.0;
         } completion:^(BOOL finished) {
@@ -43,22 +43,7 @@
     self.window.rootViewController = guideVC;
     self.window.backgroundColor = UIColor.clearColor;
     [self.window makeKeyAndVisible];
-    
-    
-//    ViewController *vc = [[ViewController alloc] init];
-//    UINavigationController *navVC = [[UINavigationController alloc] initWithRootViewController:vc];
-//    self.window.rootViewController = navVC;
-//    self.window.backgroundColor = UIColor.clearColor;
-//    [self.window makeKeyAndVisible];
-//    //
-//    SYGuideController *guideVC = [SYGuideController new];
-////    guideVC.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
-////    guideVC.guideType = UIGuideViewTypeVideo;
-//    guideVC.images = @[@"denza"];
-//    [self.window addSubview:guideVC.view];
-//    [self.window bringSubviewToFront:guideVC.view];
-////    guideVC.images = @[@"denza"];
-//    [guideVC reloadData];
+
     
     return YES;
 }

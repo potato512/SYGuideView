@@ -44,7 +44,7 @@ typedef NS_ENUM(NSInteger, UIGuideViewDirection) {
 
 /************************************************************/
 
-- (void)timerStart:(NSTimeInterval)time complete:(void (^)(NSTimeInterval time))complete;
+- (void)timerStart:(NSTimeInterval)time complete:(void (^)(SYGuideView *guideView, NSTimeInterval time))complete;
 - (void)timerStop;
 
 /************************************************************/

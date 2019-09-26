@@ -20,7 +20,7 @@
 - (void)guideView:(SYGuideView *)guideView didClickPage:(NSInteger)index;
 /// 页面是否可点击（默认YES）
 - (BOOL)guideView:(SYGuideView *)guideView shouldClickPage:(NSInteger)index;
-/// 完成时
+/// 完成时（用于视频播放完成时）
 - (void)guideViewComplete:(SYGuideView *)guideView;
 
 @end

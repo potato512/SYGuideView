@@ -16,7 +16,7 @@
 
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) NSTimeInterval time;
-@property (nonatomic, copy) void (^timeComplete)(NSTimeInterval time);
+@property (nonatomic, copy) void (^timeComplete)(SYGuideView *guideView, NSTimeInterval time);
 
 @property (nonatomic, strong) AVPlayer *player;
 
@@ -286,7 +286,7 @@
 
 #pragma mark - 倒计时
 
-- (void)timerStart:(NSTimeInterval)time complete:(void (^)(NSTimeInterval time))complete;
+- (void)timerStart:(NSTimeInterval)time complete:(void (^)(SYGuideView *guideView, NSTimeInterval time))complete;
 {
     self.time = time;
     self.timeComplete = [complete copy];
@@ -317,7 +317,7 @@
 - (void)timerFunction
 {
     if (self.timeComplete) {
-        self.timeComplete(self.time);
+        self.timeComplete(self, self.time);
     }
     if (self.time <= 0.0) {
         [self timerStop];

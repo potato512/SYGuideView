@@ -19,17 +19,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
     SYGuideView *guideView = [SYGuideView new];
     [self.view addSubview:guideView];
     guideView.filePath = [NSBundle.mainBundle pathForResource:@"denza" ofType:@"mp4"];
     guideView.guideType = UIGuideViewTypeVideo;
-    guideView.complete = ^(void){
-        NSLog(@"放完了");
-        if (self.complete) {
-            self.complete();
-        }
-    };
     guideView.delegate = self;
     [guideView reloadData];
 }
@@ -46,7 +39,7 @@
 
 - (void)guideViewComplete:(SYGuideView *)guideView
 {
-    NSLog(@"放完了");
+    NSLog(@"delegate 放完了");
     if (self.complete) {
        self.complete();
     }

@@ -77,9 +77,12 @@ static NSInteger const tagGuideView = 1000;
         SYGuideView *guideView = [[SYGuideView alloc] initWithFrame:UIApplication.sharedApplication.delegate.window.bounds];
         [UIApplication.sharedApplication.delegate.window addSubview:guideView];
         //
-        [guideView timerStart:6.0 complete:^(NSTimeInterval time) {
+        [guideView timerStart:6.0 complete:^(SYGuideView *view, NSTimeInterval time) {
             NSString *title = [NSString stringWithFormat:@"%.0fs", time];
             NSLog(@"%@", title);
+            if (time <= 0.0) {
+                [view removeFromSuperview];
+            }
         }];
         //
         guideView.tag = indexPath.row + tagGuideView;
@@ -170,7 +173,19 @@ static NSInteger const tagGuideView = 1000;
 
 - (void)guideViewComplete:(SYGuideView *)guideView
 {
-    [guideView removeFromSuperview];
+    if (guideView.tag - tagGuideView == 2) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"denza"]];
+        [guideView.superview addSubview:imageView];
+        imageView.frame = guideView.superview.bounds;
+        guideView.alpha = 0.0;
+        sleep(2);
+        [UIView animateWithDuration:0.6 animations:^{
+            imageView.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [imageView removeFromSuperview];
+            [guideView removeFromSuperview];
+        }];
+    }
 }
 
 - (NSArray *)arraySingle

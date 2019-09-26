@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SYGuideView"
-  s.version      = "1.0.0"
+  s.version      = "1.1.0"
   s.summary      = "SYGuideView used to show guide while the app is first use."
   s.homepage     = "https://github.com/potato512/SYGuideView"
   s.license      = { :type => "MIT", :file => "LICENSE" }
